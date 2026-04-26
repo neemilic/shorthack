@@ -1,0 +1,81 @@
+:root {
+    --x5-green: #24a148;
+    --x5-green-dark: #198038;
+    --x5-bg: #f5faf6;
+    --x5-text: #1f2937;
+    --x5-muted: #6b7280;
+    --x5-border: #dbe6de;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    background: var(--x5-bg);
+    color: var(--x5-text);
+    padding: 24px 14px;
+}
+.card {
+    max-width: 760px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid var(--x5-border);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+}
+h1 { margin: 0 0 8px; }
+.subtitle { margin: 0 0 16px; color: var(--x5-muted); }
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+.actions a {
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #cfe2d6;
+    font-weight: 600;
+}
+.action-main { background: #eef9f2; color: #1f5130; }
+.action-logout { background: #fff1f1; color: #8b1f1f; border-color: #f4d2d2; }
+.action-questionnaire {
+    background: var(--x5-green);
+    color: #fff;
+    border-color: var(--x5-green);
+}
+.status {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+.status-pending { background: #fff4cf; color: #9a6700; }
+.status-rejected { background: #fde7e7; color: #8b1f1f; }
+.status-accepted { background: #daf3e3; color: #0f6b2f; }
+.meta {
+    margin-top: 10px;
+    border: 1px solid var(--x5-border);
+    border-radius: 12px;
+    padding: 12px;
+    background: #fbfdfb;
+}
+.status-message {
+    margin-top: 10px;
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid var(--x5-border);
+    font-size: 14px;
+}
+.msg-pending { background: #fffaf0; border-color: #f3e3b2; color: #855f00; }
+.msg-rejected { background: #fff2f2; border-color: #f6cfd0; color: #8b1f1f; }
+.msg-accepted { background: #effbf3; border-color: #cbead5; color: #0f6b2f; }
+.empty-note {
+    border: 1px dashed #c9d5cf;
+    border-radius: 12px;
+    padding: 14px;
+    color: var(--x5-muted);
+    background: #fcfffd;
+}
