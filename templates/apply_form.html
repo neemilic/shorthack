@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подать заявку на вакансию</title>
+    <style>
+        :root {
+            --x5-green: #24a148;
+            --x5-green-dark: #198038;
+            --x5-bg: #f5faf6;
+            --x5-text: #1f2937;
+            --x5-muted: #6b7280;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+            background: var(--x5-bg);
+            color: var(--x5-text);
+            padding: 30px 16px;
+        }
+
+        .card {
+            max-width: 620px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid #d7e9dd;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 12px 26px rgba(15, 23, 42, 0.06);
+        }
+
+        h2 { margin: 0 0 8px; }
+        .subtitle { margin: 0 0 20px; color: var(--x5-muted); }
+
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        input[type=text],
+        input[type=number],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 14px;
+            border: 1px solid #c9d5cf;
+            border-radius: 10px;
+            background: #fbfdfb;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        textarea { resize: vertical; min-height: 110px; }
+        input:focus, textarea:focus, select:focus { border-color: var(--x5-green); }
+
+        button {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--x5-green);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        button:hover { background: var(--x5-green-dark); }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Подача заявки</h2>
+        <p class="subtitle">Заполните профиль кандидата для отклика на вакансию X5Tech.</p>
+        <form method="POST">
+            <label for="name">Полное имя:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required>
+
+            <label for="experience_years">Опыт работы (лет):</label>
+            <input type="number" id="experience_years" name="experience_years" min="0">
+
+            <label for="skills">Навыки (например, Python, Java, AWS):</label>
+            <input type="text" id="skills" name="skills">
+
+            <label for="education_level">Уровень образования:</label>
+            <select id="education_level" name="education_level">
+                <option value="Среднее">Среднее</option>
+                <option value="Среднее специальное">Среднее специальное</option>
+                <option value="Высшее (Бакалавр)">Высшее (Бакалавр)</option>
+                <option value="Высшее (Магистратура)">Высшее (Магистратура)</option>
+                <option value="Высшее (Аспирантура/PhD)">Высшее (Аспирантура/PhD)</option>
+            </select>
+
+            <label for="cover_letter">Сопроводительное письмо:</label>
+            <textarea id="cover_letter" name="cover_letter" rows="4"></textarea>
+
+            <button type="submit">Отправить заявку</button>
+        </form>
+    </div>
+</body>
+</html>
