@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета отправлена</title>
+    <link rel="stylesheet" href="{{ url_for('styles_file', filename='questionnaire_submitted.css') }}">
+</head>
+<body>
+    <div class="card">
+        <h1>Анкета отправлена</h1>
+        <p>{{ username }}, можете перейти в профиль для просмотра статуса или выйти из аккаунта.</p>
+        <div class="actions">
+            <a class="btn-profile" href="{{ url_for('job_seeker_profile', user_id=user_id) }}">Перейти в профиль</a>
+            <a class="btn-logout" href="{{ url_for('logout') }}">Выйти из аккаунта</a>
+        </div>
+    </div>
+</body>
+</html>

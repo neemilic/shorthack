@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета соискателя</title>
+    <style>
+        :root {
+            --x5-green: #24a148;
+            --x5-green-dark: #198038;
+            --x5-bg: #f5faf6;
+            --x5-text: #1f2937;
+            --x5-muted: #6b7280;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+            background: var(--x5-bg);
+            color: var(--x5-text);
+            padding: 24px 14px;
+        }
+        .card {
+            max-width: 820px;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid #d7e9dd;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 12px 26px rgba(15, 23, 42, 0.06);
+        }
+        h1 { margin: 0 0 8px; }
+        .subtitle { margin: 0 0 18px; color: var(--x5-muted); }
+        .section-title { margin: 18px 0 10px; color: #1f5130; }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        @media (max-width: 780px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        input[type=text], input[type=number], textarea, select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #c9d5cf;
+            border-radius: 10px;
+            background: #fbfdfb;
+            margin-bottom: 12px;
+        }
+        textarea { min-height: 90px; resize: vertical; }
+        .note {
+            font-size: 13px;
+            color: var(--x5-muted);
+            margin: 0 0 16px;
+        }
+        .top-actions {
+            margin: 0 0 14px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .top-actions a {
+            display: inline-block;
+            text-decoration: none;
+            padding: 9px 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: 1px solid #cfe2d6;
+        }
+        .action-home {
+            color: #1f5130;
+            background: #eef9f2;
+        }
+        .action-logout {
+            color: #8b1f1f;
+            background: #fff1f1;
+            border-color: #f4d2d2;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: var(--x5-green);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        button:hover { background: var(--x5-green-dark); }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="top-actions">
+            <a class="action-home" href="{{ url_for('index') }}">На главную</a>
+            <a class="action-logout" href="{{ url_for('logout') }}">Выйти</a>
+        </div>
+        <h1>Анкета соискателя</h1>
+        <p class="subtitle">Заполните профиль, чтобы мы могли подобрать вам подходящую роль.</p>
+
+        <form method="POST">
+            <div class="grid">
+                <div>
+                    <label for="name">ФИО</label>
+                    <input id="name" name="name" type="text" required>
+                </div>
+                <div>
+                    <label for="candidate_age">Сколько вам лет</label>
+                    <input id="candidate_age" name="candidate_age" type="number" min="14" max="80" required>
+                </div>
+            </div>
+            <label for="contact_details">Где вам написать для обратной связи и оставьте контакты</label>
+            <input id="contact_details" name="contact_details" type="text" placeholder="Телефон, Telegram, Email" required>
+
+            <h3 class="section-title">Что ищете в первую очередь</h3>
+            <div class="grid">
+                <div>
+                    <label for="application_format">Формат</label>
+                    <select id="application_format" name="application_format" required>
+                        {% for value, label in application_formats.items() %}
+                        <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="target_role">Выбранное направление</label>
+                    <select id="target_role" name="target_role" required>
+                        <optgroup label="Массовые вакансии">
+                            {% for role in mass_vacancies %}
+                            <option value="{{ role }}">{{ role }}</option>
+                            {% endfor %}
+                        </optgroup>
+                        <optgroup label="Профессиональные вакансии">
+                            {% for role in pro_vacancies %}
+                            <option value="{{ role }}">{{ role }}</option>
+                            {% endfor %}
+                        </optgroup>
+                        <optgroup label="Стажировки">
+                            {% for role in internships %}
+                            <option value="{{ role }}">{{ role }}</option>
+                            {% endfor %}
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <h3 class="section-title">Опыт и образование</h3>
+            <div class="grid">
+                <div>
+                    <label for="official_experience_years">Укажите количество лет официального трудоустройства данного профиля</label>
+                    <input id="official_experience_years" name="official_experience_years" type="number" min="0" step="0.5" value="0" required>
+                </div>
+                <div id="education-block">
+                    <label for="university_name">ВУЗ</label>
+                    <input id="university_name" name="university_name" type="text" placeholder="Например: НИУ ВШЭ">
+                </div>
+                <div id="education-direction-block">
+                    <label for="education_direction">Направление</label>
+                    <input id="education_direction" name="education_direction" type="text" placeholder="Например: Прикладная информатика">
+                </div>
+                <div id="education-completed-block">
+                    <label for="education_completed">Образование окончено</label>
+                    <select id="education_completed" name="education_completed">
+                        <option value="yes">Да</option>
+                        <option value="no">Нет</option>
+                    </select>
+                </div>
+            </div>
+
+            <h3 class="section-title">Материалы кандидата</h3>
+            <div class="grid" id="candidate-materials">
+                <div>
+                    <label for="github_link">GitHub ссылка</label>
+                    <input id="github_link" name="github_link" type="text" placeholder="https://github.com/username">
+                </div>
+                <div>
+                    <label for="portfolio_link">Портфолио ссылка</label>
+                    <input id="portfolio_link" name="portfolio_link" type="text" placeholder="https://...">
+                </div>
+            </div>
+            <label for="resume_file_link">Резюме файл или ссылка</label>
+            <input id="resume_file_link" name="resume_file_link" type="text" placeholder="Google Drive, PDF, hh, Notion и т.д.">
+
+            <h3 class="section-title">Текстовая часть</h3>
+            <label for="experience_description">Напишите свой опыт для текстовой оценки</label>
+            <textarea id="experience_description" name="experience_description" required></textarea>
+
+            <label for="portfolio_resume_text">Опишите резюме или портфолио</label>
+            <textarea id="portfolio_resume_text" name="portfolio_resume_text"></textarea>
+
+            <label for="personal_qualities">Личностные качества</label>
+            <textarea id="personal_qualities" name="personal_qualities"></textarea>
+
+            <h3 class="section-title">Пара коротких вопросов</h3>
+            <label for="habit_answer">Какая рабочая привычка иногда раздражает вас самих</label>
+            <textarea id="habit_answer" name="habit_answer"></textarea>
+
+            <label for="interest_task_answer">Какая задача вызывает у вас здоровый рабочий интерес</label>
+            <textarea id="interest_task_answer" name="interest_task_answer"></textarea>
+
+            <label style="display:flex; gap:8px; align-items:flex-start; font-weight:500;">
+                <input type="checkbox" name="personal_data_consent" value="yes" required style="width:auto; margin-top:3px;">
+                Я даю согласие на обработку персональных данных для подбора вакансии и обратной связи.
+            </label>
+
+            <button type="submit">Отправить анкету</button>
+        </form>
+    </div>
+    <script>
+        const formatSelect = document.getElementById('application_format');
+        const educationBlock = document.getElementById('education-block');
+        const educationDirectionBlock = document.getElementById('education-direction-block');
+        const educationCompletedBlock = document.getElementById('education-completed-block');
+        const universityInput = document.getElementById('university_name');
+        const educationDirectionInput = document.getElementById('education_direction');
+        const educationCompletedSelect = document.getElementById('education_completed');
+        const candidateMaterials = document.getElementById('candidate-materials');
+        const githubInput = document.getElementById('github_link');
+        const portfolioInput = document.getElementById('portfolio_link');
+
+        function syncEducationVisibility() {
+            const isMass = formatSelect.value === 'full_time_mass';
+            educationBlock.style.display = 'block';
+            educationDirectionBlock.style.display = 'block';
+            educationCompletedBlock.style.display = 'block';
+            universityInput.required = true;
+            educationDirectionInput.required = true;
+            educationCompletedSelect.required = true;
+
+            candidateMaterials.style.display = isMass ? 'none' : 'grid';
+            if (isMass) {
+                githubInput.value = '';
+                portfolioInput.value = '';
+            }
+        }
+
+        formatSelect.addEventListener('change', syncEducationVisibility);
+        syncEducationVisibility();
+    </script>
+</body>
+</html>

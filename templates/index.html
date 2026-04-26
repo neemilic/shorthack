@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Платформа X5</title>
+    <style>
+        :root {
+            --x5-green: #24a148;
+            --x5-green-dark: #198038;
+            --x5-bg: #f3f9f4;
+            --x5-text: #1f2937;
+            --x5-muted: #6b7280;
+            --x5-card: #ffffff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+            color: var(--x5-text);
+            background: linear-gradient(165deg, #eaf7ed 0%, #f8fbf8 45%, #ffffff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .hero-card {
+            width: 100%;
+            max-width: 980px;
+            background: var(--x5-card);
+            border: 1px solid #d9ebe0;
+            border-radius: 20px;
+            padding: 40px 34px;
+            box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        .badge {
+            display: inline-block;
+            margin-bottom: 14px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--x5-green-dark);
+            background: #e9f8ee;
+            border: 1px solid #c8ebd3;
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            font-size: clamp(30px, 5vw, 42px);
+            line-height: 1.15;
+            text-align: center;
+        }
+
+        p {
+            margin: 0 auto;
+            max-width: 560px;
+            color: var(--x5-muted);
+            font-size: 16px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .actions-grid {
+            margin-top: 28px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .action-card {
+            border: 1px solid #dbece1;
+            border-radius: 14px;
+            padding: 18px;
+            background: #fcfffd;
+        }
+
+        .action-card h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #1f5130;
+        }
+
+        .action-card p {
+            margin: 8px 0 16px;
+            max-width: none;
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--x5-green);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: var(--x5-green-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: var(--x5-green-dark);
+            border-color: #b7dfc4;
+        }
+
+        .btn-secondary:hover {
+            background: #f4fbf6;
+        }
+
+        @media (max-width: 820px) {
+            .hero-card {
+                padding: 28px 18px;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-card">
+        <span class="badge">X5Tech Hiring Platform</span>
+        <h1>Добро пожаловать на Нашу Платформу</h1>
+        <p>Соединяем лучшие таланты и захватывающие карьерные возможности.</p>
+        <div class="actions-grid">
+            <section class="action-card">
+                <h3>Регистрация</h3>
+                <p>Создайте новый аккаунт: для HR-команды или для кандидата.</p>
+                <div class="button-container">
+                    <a class="btn btn-primary" href="{{ url_for('register_hr') }}">Я HR</a>
+                    <a class="btn btn-secondary" href="{{ url_for('register_job_seeker') }}">Я ИЩУ ВАКАНСИЮ</a>
+                </div>
+            </section>
+
+            <section class="action-card">
+                <h3>Вход</h3>
+                <p>Войдите в уже существующий аккаунт и продолжите работу.</p>
+                <div class="button-container">
+                    <a class="btn btn-primary" href="{{ url_for('login_hr') }}">Войти как HR</a>
+                    <a class="btn btn-secondary" href="{{ url_for('login_job_seeker') }}">Войти как соискатель</a>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5">
+    <title>Профиль HR</title>
+    <link rel="stylesheet" href="{{ url_for('styles_file', filename='hr_profile.css') }}">
+</head>
+<body>
+    {% macro render_applications_table(applications) -%}
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Имя соискателя</th>
+                    <th>Контакты</th>
+                    <th>Направление</th>
+                    <th>Баллы</th>
+                    <th>Статус</th>
+                    <th>Офиц. опыт (лет)</th>
+                    <th>Образование</th>
+                    <th>GitHub</th>
+                    <th>Портфолио</th>
+                    <th>Текстовая сводка</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in applications %}
+                <tr>
+                    <td>{{ app.applicant_info.get('name', app.applicant_info.get('username', 'N/A')) }}</td>
+                    <td>{{ app.applicant_info.get('contact_details', app.applicant_info.get('email', 'N/A')) }}</td>
+                    <td>{{ app.applicant_info.get('target_role', 'N/A') }}</td>
+                    <td>
+                        {{ app.points }}
+                        <br>
+                        <small>
+                            обр: {{ app.applicant_info.get('education_points', 0) }},
+                            опыт: {{ app.applicant_info.get('experience_points', 0) }},
+                            текст: {{ app.applicant_info.get('text_points', 0) }},
+                            git: {{ app.applicant_info.get('github_points', 0) }},
+                            портф: {{ app.applicant_info.get('portfolio_points', 0) }}
+                        </small>
+                    </td>
+                    <td><span class="{% if app.status == 'Новая' %}status-new{% else %}status-processed{% endif %}">{{ app.status }}</span></td>
+                    <td>{{ app.applicant_info.get('official_experience_years', '0') }}</td>
+                    <td>
+                        {{ app.applicant_info.get('university_name', 'ВУЗ не указан') }},
+                        {{ app.applicant_info.get('education_direction', 'направление не указано') }}
+                        {% if app.applicant_info.get('education_completed') == 'yes' %}
+                            (окончено, {{ app.applicant_info.get('education_points', 0) }})
+                        {% else %}
+                            (не окончено, {{ app.applicant_info.get('education_points', 0) }})
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if app.applicant_info.get('github_link') %}
+                            {{ app.applicant_info.get('github_points', 0) }} балл(а)
+                            <br>
+                            <small>
+                                {{ app.applicant_info.get('github_complexity_label', 'Не оценено') }}:
+                                {{ app.applicant_info.get('github_complexity_reason', '') }}
+                            </small>
+                        {% else %}
+                            Нет
+                        {% endif %}
+                    </td>
+                    <td>{% if app.applicant_info.get('portfolio_link') %}Есть{% else %}Нет{% endif %}</td>
+                    <td>
+                        {{ app.applicant_info.get('text_summary', 'N/A') }}
+                        <br>
+                        <small>{{ app.applicant_info.get('psych_portrait', '') }}</small>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="10">Пока нет ни одной заявки.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {%- endmacro %}
+
+    <div class="container">
+        <h1>Панель HR</h1>
+        <p>Добро пожаловать в интерфейс обработки откликов X5Tech.</p>
+        <p class="live-note">Данные обновляются автоматически каждые 5 секунд.</p>
+        <div class="top-actions">
+            <a class="action-home" href="{{ url_for('index') }}">На главную</a>
+            <a class="action-logout" href="{{ url_for('logout') }}">Выйти</a>
+        </div>
+
+        <h2>Стажеры</h2>
+        {{ render_applications_table(internships) }}
+
+        <h2>Массовые вакансии</h2>
+        {{ render_applications_table(mass_vacancies) }}
+
+        <h2>Профессиональные вакансии</h2>
+        {{ render_applications_table(pro_vacancies) }}
+    </div>
+
+</body>
+</html>

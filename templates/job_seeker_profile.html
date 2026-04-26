@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль соискателя</title>
+    <link rel="stylesheet" href="{{ url_for('styles_file', filename='job_seeker_profile.css') }}">
+</head>
+<body>
+    <div class="card">
+        <div class="actions">
+            <a class="action-main" href="{{ url_for('index') }}">На главную</a>
+            <a class="action-logout" href="{{ url_for('logout') }}">Выйти</a>
+            <a class="action-questionnaire" href="{{ url_for('job_seeker_questionnaire', user_id=user_id) }}">Заполнить анкету</a>
+        </div>
+
+        <h1>Профиль соискателя</h1>
+        <p class="subtitle">Здравствуйте, {{ username }}.</p>
+
+        {% if status_meta %}
+            <span class="status status-{{ status_meta.status_code }}">{{ status_meta.status_label }}</span>
+            <div class="status-message msg-{{ status_meta.status_code }}">
+                {{ status_message }}
+            </div>
+            <div class="meta">
+                <div><strong>Направление:</strong> {{ latest_application.get('target_role', 'N/A') }}</div>
+                <div><strong>Контакты:</strong> {{ latest_application.get('contact_details', 'N/A') }}</div>
+                <div>
+                    <strong>Оценка GitHub:</strong>
+                    {{ latest_application.get('github_points', 0) }} балл(а),
+                    {{ latest_application.get('github_complexity_label', 'Не указана') }}
+                </div>
+            </div>
+        {% else %}
+            <div class="empty-note">
+                У вас пока нет заявки. Чтобы увидеть статус, заполните анкету.
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
